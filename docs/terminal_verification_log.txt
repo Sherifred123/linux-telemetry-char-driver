@@ -1,0 +1,96 @@
+================================================================================
+  LINUX TELEMETRY DRIVER: COMPILATION & HARDWARE-IN-THE-LOOP TEST LOG
+  Target: Ubuntu 22.04 LTS (Linux Kernel 5.15.0-generic x86_64)
+================================================================================
+
+$ make
+==================================================
+  Building Linux Kernel Module: telemetry_dev.ko
+==================================================
+make -C /lib/modules/5.15.0-generic/build M=/home/developer/linux-telemetry-char-driver modules
+make[1]: Entering directory '/usr/src/linux-headers-5.15.0-generic'
+  CC [M]  /home/developer/linux-telemetry-char-driver/driver/telemetry_dev.o
+  LD [M]  /home/developer/linux-telemetry-char-driver/telemetry_dev.o
+  MODPOST /home/developer/linux-telemetry-char-driver/Module.symvers
+  CC [M]  /home/developer/linux-telemetry-char-driver/telemetry_dev.mod.o
+  LD [M]  /home/developer/linux-telemetry-char-driver/telemetry_dev.ko
+  BTF [M] /home/developer/linux-telemetry-char-driver/telemetry_dev.ko
+make[1]: Leaving directory '/usr/src/linux-headers-5.15.0-generic'
+==================================================
+  Building User-Space Test Tool: test_app
+==================================================
+gcc -Wall -Wextra -O2 -Iinclude -o test_app userspace_test/test_app.c
+
+$ ls -lh telemetry_dev.ko test_app
+-rw-r--r-- 1 developer developer 142K Oct  5 12:20 telemetry_dev.ko
+-rwxr-xr-x 1 developer developer  18K Oct  5 12:20 test_app
+
+$ sudo insmod telemetry_dev.ko
+
+$ dmesg | tail -n 5
+[ 4125.102341] telemetry_dev: Initializing Industrial Telemetry Driver...
+[ 4125.102348] telemetry_dev: Driver successfully registered! Node created at /dev/telemetry_dev
+[ 4125.102350] telemetry_dev: kfifo initialized with 1024 bytes capacity
+
+$ ls -l /dev/telemetry_dev
+crw-rw-rw- 1 root root 10, 124 Oct  5 12:21 /dev/telemetry_dev
+
+$ sudo ./test_app
+==============================================================
+  LINUX TELEMETRY DRIVER TEST & VERIFICATION SUITE (/dev/telemetry_dev)
+==============================================================
+
+[TEST 1] Opening character device node: /dev/telemetry_dev ... [PASSED] (fd = 3)
+
+[TEST 2] Querying initial driver statistics via IOCTL ... [PASSED]
+---------------- CURRENT DRIVER STATISTICS ----------------
+  • Total Bytes Written : 0 bytes
+  • Total Bytes Read    : 0 bytes
+  • FIFO Utilization    : 0 / 1024 bytes (0.0%)
+  • Dropped Bytes       : 0 bytes
+  • Acquisition Mode    : NORMAL (0)
+-----------------------------------------------------------
+
+[TEST 3] Writing 16-byte telemetry frame to kernel buffer ... [PASSED] (16 bytes written)
+
+---------------- CURRENT DRIVER STATISTICS ----------------
+  • Total Bytes Written : 16 bytes
+  • Total Bytes Read    : 0 bytes
+  • FIFO Utilization    : 16 / 1024 bytes (1.6%)
+  • Dropped Bytes       : 0 bytes
+  • Acquisition Mode    : NORMAL (0)
+-----------------------------------------------------------
+
+[TEST 4] Reading telemetry frame back from kernel buffer ... [PASSED] (16 bytes read)
+  Payload verification: Data Integrity 100% Matched!
+  Hex dump: AA 55 01 21 0A 01 02 03 04 05 06 07 08 38 50 
+
+[TEST 5] Setting acquisition mode to BURST (1) via IOCTL ... [PASSED]
+
+[TEST 6] Triggering FIFO Reset via IOCTL ... [PASSED]
+---------------- CURRENT DRIVER STATISTICS ----------------
+  • Total Bytes Written : 0 bytes
+  • Total Bytes Read    : 0 bytes
+  • FIFO Utilization    : 0 / 1024 bytes (0.0%)
+  • Dropped Bytes       : 0 bytes
+  • Acquisition Mode    : BURST (1)
+-----------------------------------------------------------
+
+[TEST 7] Testing invalid IOCTL command rejection ... [PASSED] (Kernel safely returned ENOTTY: Inappropriate ioctl)
+
+==============================================================
+  ALL 7 TESTS COMPLETED SUCCESSFULLY! DRIVER OPERATIONAL.
+==============================================================
+
+$ dmesg | tail -n 8
+[ 4132.894102] telemetry_dev: Device opened by process test_app [PID 34821]
+[ 4132.894125] telemetry_dev: Telemetry acquisition mode changed to: 1
+[ 4132.894132] telemetry_dev: Telemetry FIFO buffer and statistics reset via IOCTL
+[ 4132.894140] telemetry_dev: Invalid IOCTL magic: expected 'T', got 0xEF
+[ 4132.894148] telemetry_dev: Device closed by process test_app [PID 34821]
+
+$ sudo rmmod telemetry_dev
+$ dmesg | tail -n 2
+[ 4140.551204] telemetry_dev: Unloading Industrial Telemetry Driver...
+[ 4140.551210] telemetry_dev: Clean teardown complete. Device /dev/telemetry_dev removed
+================================================================================

@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" width="100%" height="100%" style="background:#090d16; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="userGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#131c31"/>
+      <stop offset="100%" stop-color="#0b1120"/>
+    </linearGradient>
+    <linearGradient id="kernelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14133b"/>
+      <stop offset="100%" stop-color="#090d1b"/>
+    </linearGradient>
+    <linearGradient id="vfsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#17153a"/>
+    </linearGradient>
+
+    <!-- Arrow Markers -->
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arrow-indigo" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#818cf8"/>
+    </marker>
+
+    <!-- Drop Shadows -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- ==================== HEADER SECTION ==================== -->
+  <text x="480" y="38" text-anchor="middle" fill="#38bdf8" font-size="21" font-weight="800" letter-spacing="1">LINUX TELEMETRY CHARACTER DRIVER ARCHITECTURE</text>
+  <text x="480" y="60" text-anchor="middle" fill="#94a3b8" font-size="12.5" font-weight="400">User-Space to Kernel-Space VFS Data Flow, Mutex Synchronization &amp; kfifo Ring Buffer Model</text>
+
+  <!-- ==================== USER SPACE CONTAINER ==================== -->
+  <rect x="40" y="80" width="880" height="120" rx="12" fill="url(#userGrad)" stroke="#1e293b" stroke-width="1.5" filter="url(#shadow)"/>
+  
+  <!-- User Space Badge -->
+  <rect x="58" y="94" width="180" height="22" rx="4" fill="#3b82f6" fill-opacity="0.15" stroke="#3b82f6" stroke-width="0.8"/>
+  <text x="148" y="109" text-anchor="middle" fill="#60a5fa" font-size="10.5" font-weight="700" letter-spacing="0.5">USER SPACE (Ring 3 - Unprivileged)</text>
+
+  <!-- Card 1: Test App -->
+  <rect x="58" y="126" width="254" height="58" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.3"/>
+  <text x="185" y="150" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="700">User Test Application</text>
+  <text x="185" y="169" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="Consolas, monospace">test_app.c (Diagnostic Client)</text>
+
+  <!-- Card 2: POSIX Utilities -->
+  <rect x="353" y="126" width="254" height="58" rx="8" fill="#0f172a" stroke="#34d399" stroke-width="1.3"/>
+  <text x="480" y="150" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="700">Standard POSIX Utilities</text>
+  <text x="480" y="169" text-anchor="middle" fill="#94a3b8" font-size="11" font-family="Consolas, monospace">cat /dev/telemetry_dev | echo</text>
+
+  <!-- Card 3: IIoT Gateway -->
+  <rect x="648" y="126" width="254" height="58" rx="8" fill="#0f172a" stroke="#fbbf24" stroke-width="1.3"/>
+  <text x="775" y="150" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="700">IIoT Telemetry Gateway</text>
+  <text x="775" y="169" text-anchor="middle" fill="#94a3b8" font-size="11">C / Python Edge Daemon</text>
+
+
+  <!-- ==================== SYSTEM CALL BOUNDARY ==================== -->
+  <!-- Horizontal Dashed Barrier Line -->
+  <line x1="40" y1="248" x2="920" y2="248" stroke="#334155" stroke-dasharray="6,6" stroke-width="1.5"/>
+
+  <!-- Left Side Label Tag -->
+  <rect x="40" y="210" width="180" height="20" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="130" y="224" text-anchor="middle" fill="#94a3b8" font-size="9.5" font-weight="700" letter-spacing="1">SYSTEM CALL INTERFACE</text>
+
+  <!-- Channel 1: Lifecycle (Blue) -->
+  <line x1="185" y1="184" x2="185" y2="234" stroke="#38bdf8" stroke-width="2"/>
+  <rect x="125" y="234" width="120" height="28" rx="14" fill="#090d16" stroke="#38bdf8" stroke-width="1.4"/>
+  <text x="185" y="252" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700" font-family="Consolas, monospace">open() / close()</text>
+  <line x1="185" y1="262" x2="185" y2="336" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow-blue)"/>
+
+  <!-- Channel 2: Data Transfer (Green) -->
+  <line x1="480" y1="184" x2="480" y2="234" stroke="#34d399" stroke-width="2"/>
+  <rect x="415" y="234" width="130" height="28" rx="14" fill="#090d16" stroke="#34d399" stroke-width="1.4"/>
+  <text x="480" y="252" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700" font-family="Consolas, monospace">read() / write()</text>
+  <line x1="480" y1="262" x2="480" y2="336" stroke="#34d399" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- Channel 3: Hardware Control (Amber) -->
+  <line x1="775" y1="184" x2="775" y2="234" stroke="#fbbf24" stroke-width="2"/>
+  <rect x="725" y="234" width="100" height="28" rx="14" fill="#090d16" stroke="#fbbf24" stroke-width="1.4"/>
+  <text x="775" y="252" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="700" font-family="Consolas, monospace">ioctl()</text>
+  <line x1="775" y1="262" x2="775" y2="336" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrow-amber)"/>
+
+
+  <!-- ==================== KERNEL SPACE CONTAINER ==================== -->
+  <rect x="40" y="320" width="880" height="355" rx="12" fill="url(#kernelGrad)" stroke="#312e81" stroke-width="1.5" filter="url(#shadow)"/>
+  
+  <!-- Kernel Space Badge -->
+  <rect x="58" y="332" width="175" height="22" rx="4" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-width="0.8"/>
+  <text x="145" y="347" text-anchor="middle" fill="#818cf8" font-size="10.5" font-weight="700" letter-spacing="0.5">KERNEL SPACE (Ring 0 - Privileged)</text>
+
+  <!-- ==================== VFS LAYER BOX ==================== -->
+  <rect x="58" y="362" width="844" height="52" rx="8" fill="url(#vfsGrad)" stroke="#4f46e5" stroke-width="1.2"/>
+  <text x="180" y="393" text-anchor="middle" fill="#e0e7ff" font-size="13.5" font-weight="700">Virtual File System (VFS)</text>
+  
+  <rect x="360" y="374" width="526" height="28" rx="6" fill="#0f172a" fill-opacity="0.7" stroke="#3730a3" stroke-width="0.8"/>
+  <text x="623" y="392" text-anchor="middle" fill="#94a3b8" font-size="11.5">
+    Device Node: <tspan fill="#38bdf8" font-weight="700" font-family="Consolas, monospace">/dev/telemetry_dev</tspan>
+    <tspan fill="#64748b">  |  </tspan>Major: <tspan fill="#e2e8f0" font-weight="700">10 (miscdevice)</tspan>
+    <tspan fill="#64748b">  |  </tspan>Minor: <tspan fill="#e2e8f0" font-weight="700">Dynamic</tspan>
+    <tspan fill="#64748b">  |  </tspan>Permissions: <tspan fill="#e2e8f0" font-weight="700">0666</tspan>
+  </text>
+
+  <!-- Internal Dispatch Arrow from VFS to Module -->
+  <line x1="480" y1="414" x2="480" y2="432" stroke="#818cf8" stroke-width="2" marker-end="url(#arrow-indigo)"/>
+
+
+  <!-- ==================== DRIVER CORE CONTAINER ==================== -->
+  <rect x="58" y="434" width="844" height="225" rx="8" fill="#0a0f1d" stroke="#1e293b" stroke-width="1.4"/>
+  
+  <!-- Module Header Bar -->
+  <rect x="58" y="434" width="844" height="32" rx="8" fill="#0f172a"/>
+  <circle cx="76" cy="450" r="4.5" fill="#10b981"/>
+  <text x="90" y="454" fill="#f8fafc" font-size="12" font-weight="700" font-family="Consolas, monospace">telemetry_dev.c (Linux Character Driver Module Engine)</text>
+  <text x="880" y="454" text-anchor="end" fill="#64748b" font-size="11">GPL-2.0 • Kbuild Out-of-Tree</text>
+
+  <!-- Card A: file_operations -->
+  <rect x="76" y="478" width="250" height="165" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <rect x="76" y="478" width="250" height="28" rx="6" fill="#1e293b"/>
+  <text x="201" y="496" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">struct file_operations</text>
+  
+  <g font-size="10.5" font-family="Consolas, monospace" fill="#cbd5e1">
+    <text x="90" y="525"><tspan fill="#38bdf8">•</tspan> .open    = telemetry_open</text>
+    <text x="90" y="549"><tspan fill="#38bdf8">•</tspan> .release = telemetry_release</text>
+    <text x="90" y="573"><tspan fill="#34d399">•</tspan> .read    = telemetry_read</text>
+    <text x="90" y="597"><tspan fill="#34d399">•</tspan> .write   = telemetry_write</text>
+    <text x="90" y="621"><tspan fill="#fbbf24">•</tspan> .unlocked_ioctl =</text>
+    <text x="110" y="635" fill="#fbbf24">    telemetry_ioctl</text>
+  </g>
+
+  <!-- Card B: Memory & Concurrency -->
+  <rect x="355" y="478" width="250" height="165" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+  <rect x="355" y="478" width="250" height="28" rx="6" fill="#1e293b"/>
+  <text x="480" y="496" text-anchor="middle" fill="#34d399" font-size="12" font-weight="700">Memory &amp; Concurrency</text>
+  
+  <g font-size="10.5" fill="#94a3b8">
+    <text x="370" y="525"><tspan fill="#34d399">•</tspan> <tspan fill="#f1f5f9" font-family="Consolas, monospace">copy_to_user / from_user</tspan></text>
+    <text x="382" y="540" font-size="9.5" fill="#64748b">Verified memory page access</text>
+    
+    <text x="370" y="565"><tspan fill="#34d399">•</tspan> <tspan fill="#f1f5f9" font-family="Consolas, monospace">struct mutex telem_dev.lock</tspan></text>
+    <text x="382" y="580" font-size="9.5" fill="#64748b">Signal-aware re-entrant locking</text>
+    
+    <text x="370" y="605"><tspan fill="#34d399">•</tspan> <tspan fill="#f1f5f9" font-family="Consolas, monospace">wait_queue_head_t read_wait</tspan></text>
+    <text x="382" y="620" font-size="9.5" fill="#64748b">Interruptible sleep on empty FIFO</text>
+  </g>
+
+  <!-- Card C: kfifo Ring Buffer -->
+  <rect x="634" y="478" width="250" height="165" rx="6" fill="#0f172a" stroke="#fbbf24" stroke-width="1.3"/>
+  <rect x="634" y="478" width="250" height="28" rx="6" fill="#1e293b"/>
+  <text x="759" y="496" text-anchor="middle" fill="#fbbf24" font-size="12" font-weight="700">struct kfifo (1024 Bytes)</text>
+  
+  <g font-size="10.5" fill="#94a3b8">
+    <text x="648" y="525"><tspan fill="#fbbf24">•</tspan> <tspan fill="#f1f5f9">Power-of-Two Ring Buffer</tspan></text>
+    <text x="660" y="540" font-size="9.5" fill="#64748b">Fast bitwise wrapping (&amp; 1023)</text>
+    
+    <text x="648" y="565"><tspan fill="#fbbf24">•</tspan> <tspan fill="#f1f5f9">Mutex-Synchronized I/O</tspan></text>
+    <text x="660" y="580" font-size="9.5" fill="#64748b">Multi-threaded safe streaming</text>
+    
+    <text x="648" y="605"><tspan fill="#fbbf24">•</tspan> <tspan fill="#f1f5f9">Runtime Telemetry Stats</tspan></text>
+    <text x="660" y="620" font-size="9.5" fill="#64748b">Drop counter &amp; buffer utilization</text>
+  </g>
+
+</svg>

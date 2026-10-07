@@ -1,0 +1,27 @@
+# Linux Kernel Module Build Artifacts
+*.o
+*.ko
+*.mod
+*.mod.c
+*.mod.o
+*.order
+*.symvers
+*.cmd
+.*.cmd
+.tmp_versions/
+Module.markers
+modules.order
+Module.symvers
+
+# Build output
+test_app
+*.dwo
+*.su
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
