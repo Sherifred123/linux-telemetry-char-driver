@@ -3,6 +3,7 @@
  * @file    telemetry_ioctl.h
  * @brief   IOCTL command definitions and shared structures for the
  *          Linux Telemetry Character Device Driver (/dev/telemetry_dev).
+ * @author  Sherifred Singh
  *
  * This header is shared between kernel-space driver and user-space
  * application to maintain a unified binary interface (ABI).

@@ -3,6 +3,7 @@
  * @file    telemetry_dev.c
  * @brief   Production-Grade Linux Character Device Driver for Industrial
  *          Telemetry Acquisition with kfifo, wait queues, and IOCTL.
+ * @author  Sherifred Singh
  *
  * Exposes device node: /dev/telemetry_dev
  *
@@ -333,6 +334,6 @@ module_init(telemetry_init);
 module_exit(telemetry_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Industrial Embedded Systems Engineer");
+MODULE_AUTHOR("Sherifred Singh");
 MODULE_DESCRIPTION("Linux Character Device Driver with kfifo & IOCTL for Telemetry");
 MODULE_VERSION("1.0.0");

@@ -3,6 +3,7 @@
  * @file    test_app.c
  * @brief   User-space test client and verification suite for the
  *          /dev/telemetry_dev Linux character driver.
+ * @author  Sherifred Singh
  *
  * Demonstrates:
  *   1. Opening and validating the character device node.
