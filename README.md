@@ -178,10 +178,16 @@ Custom circular array implementations in multi-core SMP environments often intro
 
 ---
 
-## 6. References & Community Acknowledgments
+## 6. Project Contributors & Collaboration
 
+| Contributor | Role | Profile / Repository |
+| :--- | :--- | :--- |
+| **Sherifred Singh** | Primary Author & Driver Architect | [@sherifred-singh](https://github.com/sherifred-singh) |
+| **Jenief** | Project Collaborator & Peer Research Partner | [@Jenief](https://github.com/Jenief) • [Linux_Learning](https://github.com/Jenief/Linux_Learning) |
+
+### Community References & Inspiration
 * **Linux Kernel Documentation:** Official kernel guides on [`miscdevice`](https://docs.kernel.org/driver-api/misc_devices.html), [`kfifo`](https://docs.kernel.org/core-api/kfifo.html), and [wait queues](https://docs.kernel.org/driver-api/basics.html).
-* **Community Learning & Inspiration:** Special acknowledgment to [Jenief](https://github.com/Jenief) and the [Jenief/Linux_Learning](https://github.com/Jenief/Linux_Learning) repository for peer collaboration, Linux driver discussions, and hands-on kernel module experimentation (including USB sub-drivers and hot-plug URB mechanisms).
+* **Peer Learning & Research:** Special acknowledgment to [Jenief](https://github.com/Jenief) and the [Jenief/Linux_Learning](https://github.com/Jenief/Linux_Learning) repository for peer collaboration, Linux driver discussions, and hands-on kernel module experimentation (including USB sub-drivers and hot-plug URB mechanisms).
 
 ---
 
