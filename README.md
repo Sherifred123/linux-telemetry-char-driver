@@ -178,5 +178,12 @@ Custom circular array implementations in multi-core SMP environments often intro
 
 ---
 
-## 6. License
+## 6. References & Community Acknowledgments
+
+* **Linux Kernel Documentation:** Official kernel guides on [`miscdevice`](https://docs.kernel.org/driver-api/misc_devices.html), [`kfifo`](https://docs.kernel.org/core-api/kfifo.html), and [wait queues](https://docs.kernel.org/driver-api/basics.html).
+* **Community Learning & Inspiration:** Special acknowledgment to [Jenief](https://github.com/Jenief) and the [Jenief/Linux_Learning](https://github.com/Jenief/Linux_Learning) repository for peer collaboration, Linux driver discussions, and hands-on kernel module experimentation (including USB sub-drivers and hot-plug URB mechanisms).
+
+---
+
+## 7. License
 This project is licensed under the **GNU General Public License v2.0** (`GPL-2.0`).
