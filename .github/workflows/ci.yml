@@ -1,0 +1,54 @@
+name: Linux Kernel Driver CI & Verification Suite
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    name: Kbuild Kernel Module & Automated Verification Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Kernel Headers & Build Prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential linux-headers-$(uname -r) cppcheck kmod
+
+      - name: Static Code Analysis (cppcheck)
+        run: |
+          cppcheck --enable=warning,performance,portability \
+            --suppress=missingInclude --suppress=missingIncludeSystem \
+            --error-exitcode=1 \
+            -I include \
+            userspace_test/
+
+      - name: Compile Linux Kernel Module and User-Space Test Client
+        run: |
+          make all
+
+      - name: Inspect Kernel Module Artifact (.ko)
+        run: |
+          ls -lh telemetry_dev.ko test_app
+          modinfo telemetry_dev.ko
+
+      - name: Load Kernel Module into Ubuntu Kernel
+        run: |
+          sudo insmod telemetry_dev.ko
+          dmesg | tail -n 10
+          ls -l /dev/telemetry_dev
+
+      - name: Execute Automated Test Suite against /dev/telemetry_dev
+        run: |
+          sudo ./test_app
+
+      - name: Unload Kernel Module & Verify Clean Teardown
+        run: |
+          sudo rmmod telemetry_dev
+          dmesg | tail -n 5
+          test ! -e /dev/telemetry_dev

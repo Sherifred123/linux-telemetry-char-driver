@@ -3,6 +3,7 @@
 [![Kernel Version](https://img.shields.io/badge/Linux_Kernel-5.x_%7C_6.x-orange.svg?style=flat-square&logo=linux)](https://kernel.org)
 [![Language](https://img.shields.io/badge/Language-C99-blue.svg?style=flat-square&logo=c)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Subsystem](https://img.shields.io/badge/Subsystem-VFS_%7C_miscdevice_%7C_kfifo-blueviolet.svg?style=flat-square)](https://docs.kernel.org)
+[![Linux Driver CI](https://github.com/sherifred-singh/linux-telemetry-char-driver/actions/workflows/ci.yml/badge.svg)](https://github.com/sherifred-singh/linux-telemetry-char-driver/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-GPL--2.0-green.svg?style=flat-square)](LICENSE)
 
 A virtual **Linux Character Device Driver** implemented as a dynamically registered kernel module (`miscdevice`). The driver bridges telemetry data streams between user space and kernel space using a mutex-synchronized circular FIFO buffer (`kfifo`), POSIX blocking/non-blocking wait queues, and a dedicated `ioctl()` application binary interface (ABI) for hardware control.
