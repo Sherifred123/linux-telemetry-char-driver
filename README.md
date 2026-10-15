@@ -72,6 +72,7 @@ linux-telemetry-char-driver/
 │   ├── architecture.svg           # Vector architecture & memory boundary diagram
 │   ├── IOCTL_SPECIFICATION.md     # In-depth IOCTL ABI reference
 │   ├── ARCHITECTURE_CONCEPTS.md   # Core OS & memory safety principles
+│   ├── PROFILING_AND_TRACING.md   # Linux kernel ftrace & perf analysis guide
 │   └── terminal_verification_log.txt # Raw execution log of hardware-in-the-loop tests
 ```
 
